@@ -17,18 +17,19 @@ public class SlingshotHandler : MonoBehaviour
 
     [Header("Slingshot Values")]
     [SerializeField] private float maxDistance = 3.5f;
+    [SerializeField] private float launchPower = 2f;
 
     [Header("Objects")]
     [SerializeField] private SlingShotArea slingshotArea;
 
     [Header("Bird")]
-    [SerializeField] private GameObject angryPrefab;
-    [SerializeField] private float birdSitOffset = 2f;
-    private GameObject angryReal;
+    [SerializeField] private Angry angryPrefab;
+    [SerializeField] private float birdSitOffset = 0.3f;
+    private Angry angryReal;
 
     private Vector2 slingShotLinesPosition;
 
-    private Vector2 dir;
+    private Vector2 pullDir;
     private Vector2 dirNormalized;
 
     private bool clickedWithinArea;
@@ -57,6 +58,8 @@ public class SlingshotHandler : MonoBehaviour
         if (Mouse.current.leftButton.wasReleasedThisFrame)
         {
             clickedWithinArea = false;
+
+            angryReal.LaunchBirb(pullDir, launchPower);
         }
     }
 
@@ -70,8 +73,8 @@ public class SlingshotHandler : MonoBehaviour
 
         SetLines(slingShotLinesPosition);
 
-        dir = (Vector2)centerPos.position - slingShotLinesPosition;
-        dirNormalized = dir.normalized;
+        pullDir = (Vector2)centerPos.position - slingShotLinesPosition;
+        dirNormalized = pullDir.normalized;
     }
 
     private void SetLines(Vector2 pos)
@@ -102,11 +105,13 @@ public class SlingshotHandler : MonoBehaviour
         Vector2 spawnPos = (Vector2)idlePos.position + dir * birdSitOffset;
 
         angryReal = Instantiate(angryPrefab, spawnPos, Quaternion.identity);
+        angryReal.transform.right = dir;
     }
 
     private void PositionAndRotateAngry()
     {
         angryReal.transform.position = slingShotLinesPosition + dirNormalized * birdSitOffset;
+        angryReal.transform.right = dirNormalized;
     }
 
     #endregion

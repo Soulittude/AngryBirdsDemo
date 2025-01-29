@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1266488160139447475}
   - component: {fileID: 3830999519362446571}
   - component: {fileID: 7246687861550894082}
-  - component: {fileID: -2047495530767087116}
+  - component: {fileID: 9032771785089720899}
   m_Layer: 0
   m_Name: Angry
   m_TagString: Untagged
@@ -110,7 +110,7 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
@@ -149,7 +149,7 @@ CircleCollider2D:
   m_Offset: {x: 0.0041366518, y: -0.0013614595}
   serializedVersion: 2
   m_Radius: 0.2288355
---- !u!114 &-2047495530767087116
+--- !u!114 &9032771785089720899
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
