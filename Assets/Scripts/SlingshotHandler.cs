@@ -17,7 +17,7 @@ public class SlingshotHandler : MonoBehaviour
 
     [Header("Slingshot Values")]
     [SerializeField] private float maxDistance = 3.5f;
-    [SerializeField] private float launchPower = 2f;
+    [SerializeField] private float launchPower = 8f;
 
     [Header("Objects")]
     [SerializeField] private SlingShotArea slingshotArea;
