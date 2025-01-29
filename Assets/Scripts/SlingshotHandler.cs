@@ -18,6 +18,7 @@ public class SlingshotHandler : MonoBehaviour
     [Header("Slingshot Values")]
     [SerializeField] private float maxDistance = 3.5f;
     [SerializeField] private float launchPower = 8f;
+    [SerializeField] private float timeBetweenBirbs = 2f;
 
     [Header("Objects")]
     [SerializeField] private SlingShotArea slingshotArea;
@@ -33,6 +34,7 @@ public class SlingshotHandler : MonoBehaviour
     private Vector2 dirNormalized;
 
     private bool clickedWithinArea;
+    private bool birbOnSlingshot;
 
     private void Awake()
     {
@@ -49,17 +51,20 @@ public class SlingshotHandler : MonoBehaviour
             clickedWithinArea = true;
         }
 
-        if (Mouse.current.leftButton.isPressed && clickedWithinArea)
+        if (Mouse.current.leftButton.isPressed && clickedWithinArea && birbOnSlingshot)
         {
             DrawSlingShot();
             PositionAndRotateAngry();
         }
 
-        if (Mouse.current.leftButton.wasReleasedThisFrame)
+        if (Mouse.current.leftButton.wasReleasedThisFrame && birbOnSlingshot)
         {
             clickedWithinArea = false;
 
             angryReal.LaunchBirb(pullDir, launchPower);
+            birbOnSlingshot = false;
+
+            StartCoroutine(SpawningBirbAfterTime());
         }
     }
 
@@ -106,12 +111,21 @@ public class SlingshotHandler : MonoBehaviour
 
         angryReal = Instantiate(angryPrefab, spawnPos, Quaternion.identity);
         angryReal.transform.right = dir;
+
+        birbOnSlingshot = true;
     }
 
     private void PositionAndRotateAngry()
     {
         angryReal.transform.position = slingShotLinesPosition + dirNormalized * birdSitOffset;
         angryReal.transform.right = dirNormalized;
+    }
+
+    private IEnumerator SpawningBirbAfterTime()
+    {
+        yield return new WaitForSeconds(timeBetweenBirbs);
+
+        SpawnAngry();
     }
 
     #endregion
