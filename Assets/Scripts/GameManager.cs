@@ -4,19 +4,26 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public int maxShotCount = 3;
+    public static GameManager instance;
 
-    private int usedNumberShots;
-    
-    private void UseShot()
+    public int maxShotCount = 3;
+    private int usedNumberOfShots;
+
+    public void Awake()
     {
-        usedNumberShots++;
+        if(instance==null)
+            instance=this;
+    }
+    
+    public void UseShot()
+    {
+        usedNumberOfShots++;
 
     }
 
     public bool HasEnoughShots()
     {
-        if(usedNumberShots<maxShotCount)
+        if(usedNumberOfShots<maxShotCount)
             return true;
         else
             return false;

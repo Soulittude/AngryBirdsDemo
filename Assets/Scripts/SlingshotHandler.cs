@@ -59,12 +59,18 @@ public class SlingshotHandler : MonoBehaviour
 
         if (Mouse.current.leftButton.wasReleasedThisFrame && birbOnSlingshot)
         {
-            clickedWithinArea = false;
+            if (GameManager.instance.HasEnoughShots())
+            {
+                clickedWithinArea = false;
+                birbOnSlingshot = false;
 
-            angryReal.LaunchBirb(pullDir, launchPower);
-            birbOnSlingshot = false;
+                angryReal.LaunchBirb(pullDir, launchPower);
+                GameManager.instance.UseShot();
+                SetLines(centerPos.position);
 
-            StartCoroutine(SpawningBirbAfterTime());
+                if(GameManager.instance.HasEnoughShots())
+                    StartCoroutine(SpawningBirbAfterTime());
+            }
         }
     }
 
