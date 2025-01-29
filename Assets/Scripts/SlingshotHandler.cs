@@ -23,9 +23,13 @@ public class SlingshotHandler : MonoBehaviour
 
     [Header("Bird")]
     [SerializeField] private GameObject angryPrefab;
+    [SerializeField] private float birdSitOffset = 2f;
     private GameObject angryReal;
 
     private Vector2 slingShotLinesPosition;
+
+    private Vector2 dir;
+    private Vector2 dirNormalized;
 
     private bool clickedWithinArea;
 
@@ -65,6 +69,9 @@ public class SlingshotHandler : MonoBehaviour
         slingShotLinesPosition = centerPos.position + Vector3.ClampMagnitude(touchPosition - centerPos.position, maxDistance);
 
         SetLines(slingShotLinesPosition);
+
+        dir = (Vector2)centerPos.position - slingShotLinesPosition;
+        dirNormalized = dir.normalized;
     }
 
     private void SetLines(Vector2 pos)
@@ -90,12 +97,16 @@ public class SlingshotHandler : MonoBehaviour
     private void SpawnAngry()
     {
         SetLines(idlePos.position);
-        angryReal = Instantiate(angryPrefab, idlePos.position, Quaternion.identity);
+
+        Vector2 dir = (centerPos.position - idlePos.position).normalized;
+        Vector2 spawnPos = (Vector2)idlePos.position + dir * birdSitOffset;
+
+        angryReal = Instantiate(angryPrefab, spawnPos, Quaternion.identity);
     }
 
     private void PositionAndRotateAngry()
     {
-        angryReal.transform.position = slingShotLinesPosition;
+        angryReal.transform.position = slingShotLinesPosition + dirNormalized * birdSitOffset;
     }
 
     #endregion
