@@ -8,17 +8,20 @@ public class GameManager : MonoBehaviour
 
     public int maxShotCount = 3;
     private int usedNumberOfShots;
+    private HealthIcons iconsObj;
 
     public void Awake()
     {
         if(instance==null)
             instance=this;
+
+        iconsObj = GameObject.FindObjectOfType<HealthIcons>();
     }
     
     public void UseShot()
     {
         usedNumberOfShots++;
-
+        iconsObj.UsedShot(usedNumberOfShots);
     }
 
     public bool HasEnoughShots()

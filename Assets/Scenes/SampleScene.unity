@@ -178,10 +178,11 @@ MonoBehaviour:
   centerPos: {fileID: 1175713912}
   idlePos: {fileID: 242905917}
   maxDistance: 3.5
-  launchPower: 2
+  launchPower: 8
+  timeBetweenBirbs: 2
   slingshotArea: {fileID: 1155316825}
-  angryPrefab: {fileID: -2047495530767087116, guid: 17a25e57a9560fe40b424fedd3161d0d, type: 3}
-  birdSitOffset: 2
+  angryPrefab: {fileID: 9032771785089720899, guid: 17a25e57a9560fe40b424fedd3161d0d, type: 3}
+  birdSitOffset: 0.3
 --- !u!1 &242905916
 GameObject:
   m_ObjectHideFlags: 0
@@ -297,6 +298,51 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &281446646
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 281446648}
+  - component: {fileID: 281446647}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &281446647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 281446646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9512f9c1f240e14429dfbcb4b9149a28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxShotCount: 3
+--- !u!4 &281446648
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 281446646}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 44.523003, y: -3.4292066, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &321847767
 GameObject:
   m_ObjectHideFlags: 0
@@ -1507,3 +1553,4 @@ SceneRoots:
   - {fileID: 619394802}
   - {fileID: 374482115}
   - {fileID: 235775149}
+  - {fileID: 281446648}
