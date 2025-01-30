@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,6 +16,8 @@ public class GameManager : MonoBehaviour
 
     private List<Green> _greens = new List<Green>();
 
+    [SerializeField] private GameObject restartMenu;
+    [SerializeField] private SlingshotHandler _slingShot;
     public void Awake()
     {
         if (instance == null)
@@ -81,16 +85,22 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
     #region WinLose
 
     private void WinGame()
     {
-        Debug.Log("Win");
+        restartMenu.SetActive(true);
+        _slingShot.enabled = false;
     }
 
     private void LoseGame()
     {
-        Debug.Log("Lose");
+        RestartGame();
     }
 
     #endregion
