@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using DG.Tweening;
+using UnityEditor.UIElements;
 
 public class SlingshotHandler : MonoBehaviour
 {
@@ -14,11 +17,14 @@ public class SlingshotHandler : MonoBehaviour
     [SerializeField] private Transform rightStartPos;
     [SerializeField] private Transform centerPos;
     [SerializeField] private Transform idlePos;
+    [SerializeField] private Transform elasticTransform;
 
     [Header("Slingshot Values")]
     [SerializeField] private float maxDistance = 3.5f;
     [SerializeField] private float launchPower = 8f;
     [SerializeField] private float timeBetweenBirbs = 2f;
+    [SerializeField] private float elasticDivider = 1.2f;
+    [SerializeField] private AnimationCurve elasticCurve;
 
     [Header("Objects")]
     [SerializeField] private SlingShotArea slingshotArea;
@@ -66,7 +72,7 @@ public class SlingshotHandler : MonoBehaviour
 
                 angryReal.LaunchBirb(pullDir, launchPower);
                 GameManager.instance.UseShot();
-                SetLines(centerPos.position);
+                AnimatedSlingshot();
 
                 if (GameManager.instance.HasEnoughShots())
                     StartCoroutine(SpawningBirbAfterTime());
@@ -132,6 +138,35 @@ public class SlingshotHandler : MonoBehaviour
         yield return new WaitForSeconds(timeBetweenBirbs);
 
         SpawnAngry();
+    }
+
+    #endregion
+
+    #region Animate Slingshot
+
+    private void AnimatedSlingshot()
+    {
+        elasticTransform.position = leftLineRenderer.GetPosition(0);
+
+        float dist = Vector2.Distance(elasticTransform.position, centerPos.position);
+
+        float time = dist / elasticDivider;
+
+        elasticTransform.DOMove(centerPos.position, time).SetEase(elasticCurve);
+        StartCoroutine(AnimatedSlinghshotLines(elasticTransform, time));
+    }
+
+    private IEnumerator AnimatedSlinghshotLines(Transform trans, float time)
+    {
+        float elapsedTime = 0f;
+        while (elapsedTime < time)
+        {
+            elapsedTime += Time.deltaTime;
+
+            SetLines(trans.position);
+
+            yield return null;
+        }
     }
 
     #endregion
