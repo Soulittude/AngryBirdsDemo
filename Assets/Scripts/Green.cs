@@ -9,6 +9,8 @@ public class Green : MonoBehaviour
     [SerializeField] private float damageThreshold = 0.2f;
     private float currentHealth;
 
+    [SerializeField] private GameObject deathParticle;
+
     private void Awake()
     {
         currentHealth = maxHealth;
@@ -27,6 +29,7 @@ public class Green : MonoBehaviour
     private void DieGreen()
     {
         GameManager.instance.RemoveGreen(this);
+        Instantiate(deathParticle, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
 

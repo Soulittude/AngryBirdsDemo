@@ -33,7 +33,7 @@ public class SlingshotHandler : MonoBehaviour
     private Vector2 pullDir;
     private Vector2 dirNormalized;
 
-    private bool clickedWithinArea;
+    private bool clickedWithinArea = false;
     private bool birbOnSlingshot;
 
     private void Awake()
@@ -46,18 +46,18 @@ public class SlingshotHandler : MonoBehaviour
 
     private void Update()
     {
-        if (Mouse.current.leftButton.wasPressedThisFrame && slingshotArea.IsWithinSlingshotArea())
+        if (InputManager.wasTouchPressed && slingshotArea.IsWithinSlingshotArea())
         {
             clickedWithinArea = true;
         }
 
-        if (Mouse.current.leftButton.isPressed && clickedWithinArea && birbOnSlingshot)
+        if (InputManager.isTouchPressed && clickedWithinArea && birbOnSlingshot)
         {
             DrawSlingShot();
             PositionAndRotateAngry();
         }
 
-        if (Mouse.current.leftButton.wasReleasedThisFrame && birbOnSlingshot)
+        if (InputManager.wasTouchReleased && clickedWithinArea && birbOnSlingshot)
         {
             if (GameManager.instance.HasEnoughShots())
             {
@@ -68,7 +68,7 @@ public class SlingshotHandler : MonoBehaviour
                 GameManager.instance.UseShot();
                 SetLines(centerPos.position);
 
-                if(GameManager.instance.HasEnoughShots())
+                if (GameManager.instance.HasEnoughShots())
                     StartCoroutine(SpawningBirbAfterTime());
             }
         }
@@ -78,7 +78,7 @@ public class SlingshotHandler : MonoBehaviour
 
     private void DrawSlingShot()
     {
-        Vector3 touchPosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+        Vector3 touchPosition = Camera.main.ScreenToWorldPoint(InputManager.touchPos);
 
         slingShotLinesPosition = centerPos.position + Vector3.ClampMagnitude(touchPosition - centerPos.position, maxDistance);
 
