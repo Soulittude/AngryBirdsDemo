@@ -26,6 +26,7 @@ public class Green : MonoBehaviour
 
     private void DieGreen()
     {
+        GameManager.instance.RemoveGreen(this);
         Destroy(gameObject);
     }
 
