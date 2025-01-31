@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using DG.Tweening;
 
 public class GameManager : MonoBehaviour
 {
@@ -100,6 +101,7 @@ public class GameManager : MonoBehaviour
 
     private void LoseGame()
     {
+        DOTween.Clear();
         RestartGame();
     }
 
