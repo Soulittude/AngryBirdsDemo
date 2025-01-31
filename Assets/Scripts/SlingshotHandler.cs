@@ -27,6 +27,7 @@ public class SlingshotHandler : MonoBehaviour
 
     [Header("Objects")]
     [SerializeField] private SlingShotArea slingshotArea;
+    [SerializeField] private CameraManager camManager;
 
     [Header("Bird")]
     [SerializeField] private Angry angryPrefab;
@@ -62,8 +63,11 @@ public class SlingshotHandler : MonoBehaviour
         {
             clickedWithinArea = true;
 
-            if(birbOnSlingshot)
+            if (birbOnSlingshot)
+            {
                 SoundManager.instance.PlayClip(elasticPulledClip, audioSource);
+                camManager.SwitchToFollowCam(angryReal.transform);
+            }
         }
 
         if (InputManager.isTouchPressed && clickedWithinArea && birbOnSlingshot)
@@ -149,6 +153,7 @@ public class SlingshotHandler : MonoBehaviour
         yield return new WaitForSeconds(timeBetweenBirbs);
 
         SpawnAngry();
+        camManager.SwitchToIdleCam();
     }
 
     #endregion
