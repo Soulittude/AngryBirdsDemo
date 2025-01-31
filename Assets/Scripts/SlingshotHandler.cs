@@ -4,7 +4,6 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using DG.Tweening;
-using UnityEditor.UIElements;
 
 public class SlingshotHandler : MonoBehaviour
 {
@@ -32,6 +31,12 @@ public class SlingshotHandler : MonoBehaviour
     [Header("Bird")]
     [SerializeField] private Angry angryPrefab;
     [SerializeField] private float birdSitOffset = 0.3f;
+
+    [Header("Sounds")]
+    [SerializeField] private AudioClip elasticPulledClip;
+    [SerializeField] private AudioClip[] elasticReleasedClips;
+
+    private AudioSource audioSource;
     private Angry angryReal;
 
     private Vector2 slingShotLinesPosition;
@@ -44,6 +49,7 @@ public class SlingshotHandler : MonoBehaviour
 
     private void Awake()
     {
+        audioSource = GetComponent<AudioSource>();
         leftLineRenderer.enabled = false;
         rightLineRenderer.enabled = false;
 
@@ -55,6 +61,9 @@ public class SlingshotHandler : MonoBehaviour
         if (InputManager.wasTouchPressed && slingshotArea.IsWithinSlingshotArea())
         {
             clickedWithinArea = true;
+
+            if(birbOnSlingshot)
+                SoundManager.instance.PlayClip(elasticPulledClip, audioSource);
         }
 
         if (InputManager.isTouchPressed && clickedWithinArea && birbOnSlingshot)
@@ -71,6 +80,8 @@ public class SlingshotHandler : MonoBehaviour
                 birbOnSlingshot = false;
 
                 angryReal.LaunchBirb(pullDir, launchPower);
+
+                SoundManager.instance.PlayRandomClip(elasticReleasedClips, audioSource);
                 GameManager.instance.UseShot();
                 AnimatedSlingshot();
 

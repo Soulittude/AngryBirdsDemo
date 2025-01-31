@@ -11,6 +11,8 @@ public class Green : MonoBehaviour
 
     [SerializeField] private GameObject deathParticle;
 
+    [SerializeField] private AudioClip greenPoof;
+
     private void Awake()
     {
         currentHealth = maxHealth;
@@ -30,6 +32,8 @@ public class Green : MonoBehaviour
     {
         GameManager.instance.RemoveGreen(this);
         Instantiate(deathParticle, transform.position, Quaternion.identity);
+
+        AudioSource.PlayClipAtPoint(greenPoof, transform.position);
         Destroy(gameObject);
     }
 
@@ -37,7 +41,7 @@ public class Green : MonoBehaviour
     {
         float impactVelocity = collision.relativeVelocity.magnitude;
 
-        if(impactVelocity>damageThreshold)
+        if (impactVelocity > damageThreshold)
         {
             DamageGreen(impactVelocity);
         }

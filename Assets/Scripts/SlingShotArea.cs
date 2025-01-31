@@ -12,12 +12,10 @@ public class SlingShotArea : MonoBehaviour
 
         if (Physics2D.OverlapPoint(worldPos, slingShotAreaMask))
         {
-            Debug.Log("true");
             return true;
         }
         else
         {
-            Debug.Log("false");
             return false;
         }
 

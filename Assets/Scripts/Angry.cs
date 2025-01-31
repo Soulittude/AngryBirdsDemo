@@ -11,10 +11,15 @@ public class Angry : MonoBehaviour
     private bool hasBeenLaunched;
     private bool shouldFaceVelDir;
 
+    [SerializeField] AudioClip birbHitClip;
+
+    AudioSource source;
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<CircleCollider2D>();
+
+        source = GetComponent<AudioSource>();
     }
 
     private void Start()
@@ -34,6 +39,8 @@ public class Angry : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D col)
     {
         shouldFaceVelDir = false;
+        SoundManager.instance.PlayClip(birbHitClip, source);
+        Destroy(this); //For don't waste sources
     }
 
     public void LaunchBirb(Vector2 dir, float force)
