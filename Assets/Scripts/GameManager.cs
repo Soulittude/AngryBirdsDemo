@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -19,6 +20,9 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private GameObject restartMenu;
     [SerializeField] private SlingshotHandler _slingShot;
+
+    [SerializeField] private Image nextLevelImg;
+
     public void Awake()
     {
         if (instance == null)
@@ -32,6 +36,8 @@ public class GameManager : MonoBehaviour
         {
             _greens.Add(greens[i]);
         }
+
+        nextLevelImg.enabled = false;
     }
 
     public void UseShot()
@@ -91,12 +97,26 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
+    public void NextLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+
     #region WinLose
 
     private void WinGame()
     {
         restartMenu.SetActive(true);
         _slingShot.enabled = false;
+
+        //Check for next level existance
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        int maxLevels = SceneManager.sceneCountInBuildSettings;
+
+        if (currentSceneIndex + 1 < maxLevels)
+        {
+            nextLevelImg.enabled = true;
+        }
     }
 
     private void LoseGame()
