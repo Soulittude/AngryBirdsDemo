@@ -101,7 +101,7 @@ public class GameManager : MonoBehaviour
 
     private void LoseGame()
     {
-        DOTween.Clear();
+        DOTween.Clear(true);
         RestartGame();
     }
 
